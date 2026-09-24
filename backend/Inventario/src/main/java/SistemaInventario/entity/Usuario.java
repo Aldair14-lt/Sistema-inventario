@@ -12,6 +12,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,15 +31,23 @@ public class Usuario {
     private Long id;
 
     @Column(name = "nombre", length = 100, nullable = false)
+    @NotBlank
+    @Size(max = 100)
     private String nombre;
 
     @Column(name = "apellido", length = 100, nullable = false)
+    @NotBlank
+    @Size(max = 100)
     private String apellido;
 
     @Column(name = "email", length = 120, nullable = false, unique = true)
+    @NotBlank
+    @Email
+    @Size(max = 120)
     private String email;
 
     @Column(name = "password", length = 255, nullable = false)
+    @NotBlank
     private String password;
 
     @Column(name = "telefono", length = 15)

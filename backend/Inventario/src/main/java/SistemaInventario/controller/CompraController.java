@@ -1,12 +1,19 @@
 package SistemaInventario.controller;
 
-import SistemaInventario.entity.Compra;
-import SistemaInventario.service.CompraService;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
 import java.net.URI;
 import java.util.List;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import SistemaInventario.entity.Compra;
+import SistemaInventario.service.CompraService;
 
 @RestController
 @RequestMapping("/api/compras")
@@ -30,6 +37,7 @@ public class CompraController {
     }
 
     @PostMapping
+    @org.springframework.security.access.prepost.PreAuthorize("hasAuthority('ADMIN') or hasAuthority('ALMACENERO')")
     public ResponseEntity<Compra> create(@RequestBody Compra compra) {
         Compra saved = compraService.createCompra(compra);
         return ResponseEntity.created(URI.create("/api/compras/" + saved.getId())).body(saved);

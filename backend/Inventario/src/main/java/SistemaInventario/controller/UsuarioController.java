@@ -29,6 +29,7 @@ public class UsuarioController {
     }
 
     @GetMapping
+    @org.springframework.security.access.prepost.PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<List<Usuario>> all() {
         return ResponseEntity.ok(usuarioRepository.findAll());
     }
@@ -39,13 +40,15 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public ResponseEntity<Usuario> create(@RequestBody Usuario usuario) {
+    @org.springframework.security.access.prepost.PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<Usuario> create(@RequestBody @jakarta.validation.Valid Usuario usuario) {
         Usuario saved = usuarioRepository.save(usuario);
         return ResponseEntity.created(URI.create("/api/usuarios/" + saved.getId())).body(saved);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Usuario> update(@PathVariable Long id, @RequestBody Usuario usuario) {
+    @org.springframework.security.access.prepost.PreAuthorize("hasAuthority('ADMIN') or #id == principal.id")
+    public ResponseEntity<Usuario> update(@PathVariable Long id, @RequestBody @jakarta.validation.Valid Usuario usuario) {
         return usuarioRepository.findById(id).map(existing -> {
             usuario.setId(existing.getId());
             Usuario saved = usuarioRepository.save(usuario);
@@ -54,6 +57,7 @@ public class UsuarioController {
     }
 
     @DeleteMapping("/{id}")
+    @org.springframework.security.access.prepost.PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         var opt = usuarioRepository.findById(id);
         if (opt.isEmpty()) {

@@ -15,51 +15,51 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import SistemaInventario.entity.Proveedor;
-import SistemaInventario.repository.ProveedorRepository;
+import SistemaInventario.service.ProveedorService;
 
 @RestController
 @RequestMapping("/api/proveedores")
 @CrossOrigin(origins = "*")
 public class ProveedorController {
 
-    private final ProveedorRepository proveedorRepository;
+    private final ProveedorService proveedorService;
 
-    public ProveedorController(ProveedorRepository proveedorRepository) {
-        this.proveedorRepository = proveedorRepository;
+    public ProveedorController(ProveedorService proveedorService) {
+        this.proveedorService = proveedorService;
     }
 
     @GetMapping
     public ResponseEntity<List<Proveedor>> all() {
-        return ResponseEntity.ok(proveedorRepository.findAll());
+        return ResponseEntity.ok(proveedorService.findAll());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Proveedor> getOne(@PathVariable Long id) {
-        return proveedorRepository.findById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+        return proveedorService.findById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
     public ResponseEntity<Proveedor> create(@RequestBody Proveedor proveedor) {
-        Proveedor saved = proveedorRepository.save(proveedor);
+        Proveedor saved = proveedorService.save(proveedor);
         return ResponseEntity.created(URI.create("/api/proveedores/" + saved.getId())).body(saved);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Proveedor> update(@PathVariable Long id, @RequestBody Proveedor proveedor) {
-        return proveedorRepository.findById(id).map(existing -> {
+        return proveedorService.findById(id).map(existing -> {
             proveedor.setId(existing.getId());
-            Proveedor saved = proveedorRepository.save(proveedor);
+            Proveedor saved = proveedorService.save(proveedor);
             return ResponseEntity.ok(saved);
         }).orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
-        var opt = proveedorRepository.findById(id);
+        var opt = proveedorService.findById(id);
         if (opt.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        proveedorRepository.deleteById(id);
+        proveedorService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 }
