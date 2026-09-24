@@ -39,9 +39,7 @@ public class AuthController {
         authManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
         var user = usuarioRepository.findByEmail(email).orElseThrow();
         String token = jwtUtils.generateToken(email);
-        // Return user roles as simple array of names to frontend
-        String roleName = user.getRol() != null ? user.getRol().getNombre() : "USER";
-        return ResponseEntity.ok(Map.of("token", token, "usuario", user, "rol", roleName));
+        return ResponseEntity.ok(Map.of("token", token, "usuario", user));
     }
 
     @PostMapping("/register")

@@ -54,6 +54,38 @@ public class JwtUtils {
         }
     }
 
+    public boolean validateToken(String token, org.springframework.security.core.userdetails.UserDetails userDetails) {
+        try {
+            if (token == null) return false;
+            String[] parts = token.split("\\.");
+            if (parts.length != 3) return false;
+            String header = parts[0];
+            String payload = parts[1];
+            String signature = parts[2];
+
+            // verify signature
+            String signingInput = header + "." + payload;
+            Mac mac = Mac.getInstance("HmacSHA256");
+            mac.init(new SecretKeySpec(jwtSecret.getBytes(StandardCharsets.UTF_8), "HmacSHA256"));
+            String expectedSig = Base64.getUrlEncoder().withoutPadding().encodeToString(mac.doFinal(signingInput.getBytes(StandardCharsets.UTF_8)));
+            if (!expectedSig.equals(signature)) return false;
+
+            // verify subject and expiry
+            String payloadJson = new String(Base64.getUrlDecoder().decode(payload), StandardCharsets.UTF_8);
+            String sub = extractStringField(payloadJson, "sub");
+            if (sub == null) return false;
+            if (!sub.equals(userDetails.getUsername())) return false;
+            String expStr = extractNumericField(payloadJson, "exp");
+            if (expStr != null) {
+                long exp = Long.parseLong(expStr);
+                if (Instant.now().toEpochMilli() > exp) return false;
+            }
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     private static String extractStringField(String json, String field) {
         String pattern = "\"" + field + "\"\s*:\s*\"";
         int idx = json.indexOf(pattern);

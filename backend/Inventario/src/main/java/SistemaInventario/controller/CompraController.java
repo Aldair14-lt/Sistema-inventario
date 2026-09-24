@@ -37,7 +37,6 @@ public class CompraController {
     }
 
     @PostMapping
-    @org.springframework.security.access.prepost.PreAuthorize("hasAuthority('ADMIN') or hasAuthority('ALMACENERO')")
     public ResponseEntity<Compra> create(@RequestBody Compra compra) {
         Compra saved = compraService.createCompra(compra);
         return ResponseEntity.created(URI.create("/api/compras/" + saved.getId())).body(saved);

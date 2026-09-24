@@ -25,9 +25,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         var opt = usuarioRepository.findByEmail(username);
         var u = opt.orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
         var role = u.getRol() != null ? u.getRol().getNombre() : "USER";
-        // Spring Security `hasRole('X')` expects roles with 'ROLE_' prefix when using hasRole.
-        // We map repository role names (e.g., ADMIN, ALMACENERO) to authorities with ROLE_ prefix.
-        String authority = role.startsWith("ROLE_") ? role : "ROLE_" + role;
-        return new User(u.getEmail(), u.getPassword(), Collections.singletonList(new SimpleGrantedAuthority(authority)));
+        return new User(u.getEmail(), u.getPassword(), Collections.singletonList(new SimpleGrantedAuthority(role)));
     }
 }

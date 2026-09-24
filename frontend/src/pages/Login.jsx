@@ -10,8 +10,6 @@ export default function Login({onLogin}){
     try{
       const r = await http.post('/auth/login', {email, password})
       localStorage.setItem('token', r.data.token)
-      // persist role for UI
-      if(r.data.rol) localStorage.setItem('rol', r.data.rol)
       onLogin(r.data.usuario)
     }catch(e){
       alert('Credenciales inválidas')

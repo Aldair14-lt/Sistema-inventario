@@ -69,7 +69,6 @@ public class ProductoController {
     }
 
     @DeleteMapping("/{id}")
-    @org.springframework.security.access.prepost.PreAuthorize("hasAuthority('ADMIN') or hasAuthority('ALMACENERO')")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         var opt = productoService.findById(id);
         if (opt.isEmpty()) {
