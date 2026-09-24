@@ -1,5 +1,6 @@
 package SistemaInventario.entity;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -40,13 +41,13 @@ public class Venta {
     private LocalDateTime fechaVenta;
 
     @Column(name = "subtotal", precision = 10, scale = 2, nullable = false)
-    private Double subtotal;
+    private BigDecimal subtotal;
 
     @Column(name = "igv", precision = 10, scale = 2, nullable = false)
-    private Double igv;
+    private BigDecimal igv;
 
     @Column(name = "total", precision = 10, scale = 2, nullable = false)
-    private Double total;
+    private BigDecimal total;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_id", nullable = false)

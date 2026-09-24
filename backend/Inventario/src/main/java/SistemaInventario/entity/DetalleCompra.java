@@ -1,5 +1,7 @@
 package SistemaInventario.entity;
 
+import java.math.BigDecimal;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -36,9 +38,9 @@ public class DetalleCompra {
     private Integer cantidad;
 
     @Column(name = "precio_unitario", precision = 10, scale = 2, nullable = false)
-    private Double precioUnitario;
+    private BigDecimal precioUnitario;
 
     @Column(name = "subtotal", precision = 10, scale = 2, nullable = false)
-    private Double subtotal;
+    private BigDecimal subtotal;
 
 }

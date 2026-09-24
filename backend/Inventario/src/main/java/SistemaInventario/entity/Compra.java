@@ -1,5 +1,6 @@
 package SistemaInventario.entity;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -40,7 +41,7 @@ public class Compra {
     private LocalDateTime fechaCompra;
 
     @Column(name = "total", precision = 10, scale = 2, nullable = false)
-    private Double total;
+    private BigDecimal total;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "proveedor_id", nullable = false)

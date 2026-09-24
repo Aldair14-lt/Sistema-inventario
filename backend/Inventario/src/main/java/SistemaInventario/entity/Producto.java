@@ -1,5 +1,6 @@
 package SistemaInventario.entity;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
@@ -37,10 +38,10 @@ public class Producto {
     private String descripcion;
 
     @Column(name = "precio_compra", precision = 10, scale = 2, nullable = false)
-    private Double precioCompra;
+    private BigDecimal precioCompra;
 
     @Column(name = "precio_venta", precision = 10, scale = 2, nullable = false)
-    private Double precioVenta;
+    private BigDecimal precioVenta;
 
     @Column(name = "stock_actual", nullable = false)
     private Integer stockActual = 0;
