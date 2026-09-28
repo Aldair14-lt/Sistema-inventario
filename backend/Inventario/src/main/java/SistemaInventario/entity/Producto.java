@@ -68,6 +68,8 @@ public class Producto {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "proveedor_id", nullable = false)
+
+    
     @NotNull
     private Proveedor proveedor;
 

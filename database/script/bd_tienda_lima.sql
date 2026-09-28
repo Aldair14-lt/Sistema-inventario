@@ -138,22 +138,3 @@ CREATE TABLE movimientos_inventario (
     CONSTRAINT fk_movimiento_producto FOREIGN KEY (producto_id) REFERENCES productos(id),
     CONSTRAINT fk_movimiento_usuario FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
- 
--- INSERCIÓN DE DATOS INICIALES
-INSERT INTO roles (nombre, descripcion) VALUES
-('ADMIN', 'Administrador total del sistema'),
-('CAJERO', 'Encargado de registro de ventas y caja'),
-('ALMACENERO', 'Encargado de inventario y recepción de productos');
- 
-INSERT INTO usuarios (nombre, apellido, email, password, telefono, rol_id) VALUES
-('Admin', 'Lima', 'admin@tiendalima.com', '$2a$10$e844S3zP3.g4I5d68846O.EwO1l1i2wA.sN4', '966000111', 1);
- 
-INSERT INTO categorias (nombre, descripcion) VALUES
-('Abarrotes Básicos', 'Arroz, azúcar, fideos, aceites y legumbres'),
-('Lácteos y Huevos', 'Leche, yogures, quesos y mantequillas'),
-('Bebidas y Gaseosas', 'Agua, refrescos, cervezas y jugos'),
-('Limpieza del Hogar', 'Detergentes, desinfectantes y jabones');
- 
-INSERT INTO proveedores (ruc, razon_social, telefono, email, direccion) VALUES
-('20100012341', 'Distribuidora Central S.A.C.', '014567890', 'ventas@central.com', 'Av. Argentina 1230, Lima'),
-('20555666771', 'Lácteos del Valle E.I.R.L.', '019876543', 'contacto@lacteosvalle.pe', 'Av. Industrial 450, Lima');

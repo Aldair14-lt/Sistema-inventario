@@ -29,26 +29,26 @@ public class CategoriaController {
     }
 
     @GetMapping
-    @org.springframework.security.access.prepost.PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
+    //@org.springframework.security.access.prepost.PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
     public ResponseEntity<List<Categoria>> all() {
         return ResponseEntity.ok(categoriaService.findAll());
     }
 
     @GetMapping("/{id}")
-    @org.springframework.security.access.prepost.PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
+    //@org.springframework.security.access.prepost.PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
     public ResponseEntity<Categoria> getOne(@PathVariable Long id) {
         return categoriaService.findById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    @org.springframework.security.access.prepost.PreAuthorize("hasAuthority('ADMIN')")
+    //@org.springframework.security.access.prepost.PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Categoria> create(@RequestBody @jakarta.validation.Valid Categoria categoria) {
         Categoria saved = categoriaService.save(categoria);
         return ResponseEntity.created(URI.create("/api/categorias/" + saved.getId())).body(saved);
     }
 
     @PutMapping("/{id}")
-    @org.springframework.security.access.prepost.PreAuthorize("hasAuthority('ADMIN')")
+    //@org.springframework.security.access.prepost.PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Categoria> update(@PathVariable Long id, @RequestBody @jakarta.validation.Valid Categoria categoria) {
         return categoriaService.findById(id).map(existing -> {
             categoria.setId(existing.getId());
@@ -58,7 +58,7 @@ public class CategoriaController {
     }
 
     @DeleteMapping("/{id}")
-    @org.springframework.security.access.prepost.PreAuthorize("hasAuthority('ADMIN')")
+    //@org.springframework.security.access.prepost.PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         var opt = categoriaService.findById(id);
         if (opt.isEmpty()) {
